@@ -5,7 +5,7 @@ on: push
 env:
   SOLUTION_PATH: './WebApplication1.sln'
   BUILD_CONFIG: 'Release'
-  DOTNET_VERSION: '6.0.x'
+  DOTNET_VERSION: '6.0.x
   PUBLISH_OUTPUT_PATH: './published'
   ARTIFACT_NAME: 'application'
 
@@ -14,7 +14,6 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v3
@@ -48,7 +47,7 @@ jobs:
     - name: Login to Azure
       uses: azure/login@v1
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        creds: '${{ secrets.AZURE_CREDENTIALS }}'
 
     - name: Deploy to Dev
       run: |
