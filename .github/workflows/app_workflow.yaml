@@ -32,10 +32,17 @@ jobs:
     - name: Publish
       run: dotnet publish ${{ env.SOLUTION_PATH }} --configuration ${{ env.BUILD_CONFIG }} -o ${{ env.PUBLISH_OUTPUT_PATH }}
 
-    - name: Zip package
-      run: | 
-        cd ${{ env.PUBLISH_OUTPUT_PATH }}
-        zip -r ./${{ env.ARTIFACT_NAME }} .
+    - name: Publish Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ env.ARTIFACT_NAME }}
+        path: ${{ env.PUBLISH_OUTPUT_PATH }}
+
+    # - name: Zip package
+    #   run: | 
+    #     cd ${{ env.PUBLISH_OUTPUT_PATH }}
+    #     zip -r ./${{ env.ARTIFACT_NAME }} .
+    #     ls
 
   deploy-dev:
     runs-on: ubuntu-latest
@@ -44,6 +51,11 @@ jobs:
     environment: DEV
     steps:
 
+    - name: Download Artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: ${{ env.ARTIFACT_NAME }}
+
     - name: Login to Azure
       uses: azure/login@v1
       with:
@@ -51,7 +63,7 @@ jobs:
 
     - name: Deploy to Dev
       run: |
-        az webapp deployment source config-zip --resource-group ${{ vars.RESOURCE_GROUP }} --name ${{ vars.WEB_APP_NAME }} --src ${{ env.PUBLISH_OUTPUT_PATH }}/${{ env.ARTIFACT_NAME }}.zip
+        az webapp deployment source config-zip --resource-group ${{ vars.RESOURCE_GROUP }} --name ${{ vars.WEB_APP_NAME }} --src ${{ env.PUBLISH_OUTPUT_PATH }}
 
   # deploy-qa:
   #   runs-on: ubuntu-latest
