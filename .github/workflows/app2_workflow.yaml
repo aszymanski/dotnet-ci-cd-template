@@ -8,12 +8,11 @@ on:
       - 'WebApplication2/**'
 
 env:
-  SOLUTION_PATH: '.\WebApplication2\WebApplication2.sln'
+  SOLUTION_FILE_PATH: '.\WebApplication2\WebApplication2.sln'
   BUILD_CONFIG: 'Release'
   PLATFORM: Any Cpu
   DOTNET_VERSION: '4.7.2'
-  PUBLISH_OUTPUT_PATH: '.\published'
-  APPLICATION_PUBLISH_PATH: '.\published\webapp'
+  PUBLISH_OUTPUT_PATH: 'published'
   ARTIFACT_NAME: 'application'
 
 
@@ -38,59 +37,38 @@ jobs:
 
     - name: MSBuild
       run: |
-        msbuild ${{ env.SOLUTION_PATH }} /nologo /nr:false /p:DeployOnBuild=true /p:OutputPath="${{ env.PUBLISH_OUTPUT_PATH }}" /p:WebProjectOutputDir="${{ env.APPLICATION_PUBLISH_PATH }}" /p:platform="${{ env.PLATFORM }}" /p:configuration="${{ env.BUILD_CONFIG }}"
+        msbuild ${{ env.SOLUTION_PATH }} /nologo /nr:false /p:DeployOnBuild=true /p:OutputPath="output" /p:WebProjectOutputDir="..\${{ env.PUBLISH_OUTPUT_PATH }}" /p:platform="${{ env.PLATFORM }}" /p:configuration="${{ env.BUILD_CONFIG }}"
 
-  #   - name: Setup .NET Core
-  #     uses: actions/setup-dotnet@v3
-  #     with:
-  #       dotnet-version: ${{ env.DOTNET_VERSION }}
 
-  #   - name: Restore packages
-  #     run: dotnet restore ${{ env.SOLUTION_PATH }}
+    - name: Publish Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ env.ARTIFACT_NAME }}
+        path: .\WebApplication2\${{ env.PUBLISH_OUTPUT_PATH }}
 
-  #   - name: Build
-  #     run: dotnet build ${{ env.SOLUTION_PATH }} --configuration ${{ env.BUILD_CONFIG }}
+  deploy-dev:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/develop'
+    environment: DEV
+    steps:
 
-  #   - name: Publish
-  #     run: dotnet publish ${{ env.SOLUTION_PATH }} --configuration ${{ env.BUILD_CONFIG }} -o ${{ env.PUBLISH_OUTPUT_PATH }}
-
-  #   - name: Check content
-  #     run: | 
-  #       ls
-  #       echo "---END---"
-  #       cd ${{ env.PUBLISH_OUTPUT_PATH }}
-  #       ls
-  #       echo "---END---"   
-
-  #   - name: Publish Artifact
-  #     uses: actions/upload-artifact@v2
-  #     with:
-  #       name: ${{ env.ARTIFACT_NAME }}
-  #       path: ${{ env.PUBLISH_OUTPUT_PATH }}
-
-  # deploy-dev:
-  #   runs-on: ubuntu-latest
-  #   needs: build
-  #   if: github.ref == 'refs/heads/develop'
-  #   environment: DEV
-  #   steps:
-
-  #   - name: Download Artifact
-  #     uses: actions/download-artifact@v2
-  #     with:
-  #       name: ${{ env.ARTIFACT_NAME }}
-  #       path: ${{ env.PUBLISH_OUTPUT_PATH }}
+    - name: Download Artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: ${{ env.ARTIFACT_NAME }}
+        path: ${{ env.PUBLISH_OUTPUT_PATH }}
         
-  #   - name: Check content
-  #     run: | 
-  #       ls
-  #       echo "---END---"
+    - name: Check content
+      run: | 
+        ls
+        echo "---END---"
 
-  #   - name: Zip package
-  #     run: | 
-  #       cd ${{ env.PUBLISH_OUTPUT_PATH }}
-  #       zip -r ./${{ env.ARTIFACT_NAME }} .
-  #       ls        
+    - name: Zip package
+      run: | 
+        cd ${{ env.PUBLISH_OUTPUT_PATH }}
+        zip -r ./${{ env.ARTIFACT_NAME }} .
+        ls        
 
   #   - name: Login to Azure
   #     uses: azure/login@v1
