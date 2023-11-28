@@ -8,7 +8,7 @@ on:
       - 'WebApplication2/**'
 
 env:
-  SOLUTION_FILE_PATH: '.\WebApplication2\WebApplication2.sln'
+  SOLUTION_PATH: '.\WebApplication2\WebApplication2.sln'
   BUILD_CONFIG: 'Release'
   PLATFORM: Any Cpu
   DOTNET_VERSION: '4.7.2'
