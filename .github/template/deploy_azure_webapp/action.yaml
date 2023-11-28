@@ -26,7 +26,7 @@ runs:
     run: | 
       ls 
       echo "--END---"
-      cd ${{ inputs.publish_output_path }}
+      cd ${{ inputs.artifact_name }}
       ls 
       echo "--END---"
       zip -r ./${{ inputs.artifact_name }} .
