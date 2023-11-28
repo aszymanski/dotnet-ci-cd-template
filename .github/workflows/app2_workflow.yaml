@@ -8,20 +8,37 @@ on:
       - 'WebApplication2/**'
 
 env:
-  SOLUTION_PATH: './WebApplication2/WebApplication2/WebApplication2.csproj'
+  SOLUTION_PATH: '.\WebApplication2\WebApplication2.sln'
   BUILD_CONFIG: 'Release'
-  DOTNET_VERSION: '6.0.x'
-  PUBLISH_OUTPUT_PATH: './published'
+  PLATFORM: Any Cpu
+  DOTNET_VERSION: '4.7.2'
+  PUBLISH_OUTPUT_PATH: '.\published'
+  APPLICATION_PUBLISH_PATH: '.\published\webapp'
   ARTIFACT_NAME: 'application'
 
 
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v3
+
+    - name: Setup Nuget
+      uses: nuget/setup-nuget@v1
+      with:
+        nuget-version: 'latest'
+
+    - name: Setup MSBUILD
+      uses: microsoft/setup-msbuild@v1.1
+
+    - name: Restore packages 
+      run: nuget restore ${{ env.SOLUTION_PATH }} -Verbosity Detailed -NonInteractive
+
+    - name: MSBuild
+      run: |
+        msbuild ${{ env.SOLUTION_PATH }} /nologo /nr:false /p:DeployOnBuild=true /p:OutputPath="${{ env.PUBLISH_OUTPUT_PATH }}" /p:WebProjectOutputDir="${{ env.APPLICATION_PUBLISH_PATH }}" /p:platform="${{ env.PLATFORM }}" /p:configuration="${{ env.BUILD_CONFIG }}"
 
   #   - name: Setup .NET Core
   #     uses: actions/setup-dotnet@v3
