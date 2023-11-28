@@ -38,4 +38,4 @@ runs:
   - name: Deploy to QA
     shell: bash
     run: |
-      az webapp deployment source config-zip --resource-group ${{ inputs.resource_group }} --name ${{ inputs.web_app_name }} --src ${{ inputs.${{ env.artifact_name }} }}/${{ inputs.artifact_name }}.zip
+      az webapp deployment source config-zip --resource-group ${{ inputs.resource_group }} --name ${{ inputs.web_app_name }} --src ${{ inputs.artifact_name }}/${{ inputs.artifact_name }}.zip
