@@ -1,4 +1,4 @@
-name: CI/CD - WebForms7
+name: CI/CD - WebForms
 
 on:
   workflow_dispatch:
