@@ -1,0 +1,121 @@
+name: CI/CD - WebForms7
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/app2_workflow.yaml'
+      - 'WebApplication2/**'
+
+env:
+  SOLUTION_PATH: './WebApplication2/WebApplication2/WebApplication2.csproj'
+  BUILD_CONFIG: 'Release'
+  DOTNET_VERSION: '6.0.x'
+  PUBLISH_OUTPUT_PATH: './published'
+  ARTIFACT_NAME: 'application'
+
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+  #   - name: Setup .NET Core
+  #     uses: actions/setup-dotnet@v3
+  #     with:
+  #       dotnet-version: ${{ env.DOTNET_VERSION }}
+
+  #   - name: Restore packages
+  #     run: dotnet restore ${{ env.SOLUTION_PATH }}
+
+  #   - name: Build
+  #     run: dotnet build ${{ env.SOLUTION_PATH }} --configuration ${{ env.BUILD_CONFIG }}
+
+  #   - name: Publish
+  #     run: dotnet publish ${{ env.SOLUTION_PATH }} --configuration ${{ env.BUILD_CONFIG }} -o ${{ env.PUBLISH_OUTPUT_PATH }}
+
+  #   - name: Check content
+  #     run: | 
+  #       ls
+  #       echo "---END---"
+  #       cd ${{ env.PUBLISH_OUTPUT_PATH }}
+  #       ls
+  #       echo "---END---"   
+
+  #   - name: Publish Artifact
+  #     uses: actions/upload-artifact@v2
+  #     with:
+  #       name: ${{ env.ARTIFACT_NAME }}
+  #       path: ${{ env.PUBLISH_OUTPUT_PATH }}
+
+  # deploy-dev:
+  #   runs-on: ubuntu-latest
+  #   needs: build
+  #   if: github.ref == 'refs/heads/develop'
+  #   environment: DEV
+  #   steps:
+
+  #   - name: Download Artifact
+  #     uses: actions/download-artifact@v2
+  #     with:
+  #       name: ${{ env.ARTIFACT_NAME }}
+  #       path: ${{ env.PUBLISH_OUTPUT_PATH }}
+        
+  #   - name: Check content
+  #     run: | 
+  #       ls
+  #       echo "---END---"
+
+  #   - name: Zip package
+  #     run: | 
+  #       cd ${{ env.PUBLISH_OUTPUT_PATH }}
+  #       zip -r ./${{ env.ARTIFACT_NAME }} .
+  #       ls        
+
+  #   - name: Login to Azure
+  #     uses: azure/login@v1
+  #     with:
+  #       creds: '${{ secrets.AZURE_CREDENTIALS }}'
+
+  #   # - name: Configure Environmental Variables
+  #   #   run: |
+  #   #     az webapp config appsettings set --resource-group ${{ vars.RESOURCE_GROUP }} --name ${{ vars.WEB_APP_NAME }} --settings "ASPNETCORE_HTTPS_PORT"=8080
+
+  #   - name: Deploy to Dev
+  #     run: |
+  #       az webapp deployment source config-zip --resource-group ${{ vars.RESOURCE_GROUP }} --name ${{ vars.WEB_APP_NAME }} --src ${{ env.PUBLISH_OUTPUT_PATH }}/${{ env.ARTIFACT_NAME }}.zip
+
+  # deploy-qa:
+  #   runs-on: ubuntu-latest
+  #   needs: build
+  #   if: github.ref == 'refs/heads/main'
+  #   steps:
+  #   - name: Deploy to QA
+  #     run: |
+  #       # Add your deployment script here
+  #     env:
+  #       AZURE_WEBAPP_NAME: your-qa-app-name
+  #       AZURE_RESOURCE_GROUP: your-qa-resource-group
+
+  # deploy-prod:
+  #   runs-on: ubuntu-latest
+  #   needs: build
+  #   steps:
+  #   - name: Deploy to Prod
+  #     run: |
+  #       # Add your deployment script here
+  #     env:
+  #       AZURE_WEBAPP_NAME: your-prod-app-name
+  #       AZURE_RESOURCE_GROUP: your-prod-resource-group
+
+  #   - name: Create Release
+  #     id: create_release
+  #     uses: actions/create-release@v1
+  #     with:
+  #       tag_name: ${{ github.sha }}
+  #       release_name: Release ${{ github.sha }}
+  #       draft: false
+  #       prerelease: false

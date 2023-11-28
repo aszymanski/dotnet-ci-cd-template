@@ -1,6 +1,11 @@
 name: CI/CD
 
-on: push
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/app_workflow.yaml'
+      - 'WebApplication1/**'
 
 env:
   SOLUTION_PATH: '.WebApplication1/WebApplication1.sln'
