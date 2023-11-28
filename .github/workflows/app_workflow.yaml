@@ -3,7 +3,7 @@ name: CI/CD
 on: push
 
 env:
-  SOLUTION_PATH: './WebApplication1.sln'
+  SOLUTION_PATH: '.WebApplication1/WebApplication1.sln'
   BUILD_CONFIG: 'Release'
   DOTNET_VERSION: '6.0.x'
   PUBLISH_OUTPUT_PATH: './published'
