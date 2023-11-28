@@ -36,23 +36,23 @@ jobs:
     - name: Zip package
       run: | 
         cd ${{ env.PUBLISH_OUTPUT_PATH }}
-        zip -r ../${{ env.ARTIFACT_NAME }} .
-        cd ../
-        ls
+        zip -r ${{ env.ARTIFACT_NAME }} .
 
-  # deploy-dev:
-  #   runs-on: ubuntu-latest
-  #   needs: build
-  #   if: github.ref == 'refs/heads/develop'
-  #   steps:
-  #   - name: Deploy to Dev
-  #     run: |
-  #       # Add your deployment script here
-  #       # Example for Azure Web App deployment
-  #       # az webapp deployment source config-zip --resource-group YourResourceGroup --name YourWebAppName --src ./bin/Release/netcoreapp3.1/publish.zip
-  #     env:
-  #       AZURE_WEBAPP_NAME: your-dev-app-name
-  #       AZURE_RESOURCE_GROUP: your-dev-resource-group
+  deploy-dev:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/develop'
+    environment: DEV
+    steps:
+
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        
+    - name: Deploy to Dev
+      run: |
+        #az webapp deployment source config-zip --resource-group ${{ vars.RESOURCE_GROUP }} --name ${{ vars.WEB_APP_NAME }} --src ${{ env.PUBLISH_OUTPUT_PATH }}/${{ env.ARTIFACT_NAME }}.zip
 
   # deploy-qa:
   #   runs-on: ubuntu-latest
