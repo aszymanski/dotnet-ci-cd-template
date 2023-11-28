@@ -21,28 +21,14 @@ runs:
   - name: Zip package
     shell: bash
     run: | 
-      echo "--Check---"
-      ls 
-      echo "--END---"
       zip -r ./${{ inputs.artifact_name }} ./${{ inputs.artifact_name }}
-      echo "--Check---"
-      ls   
-      echo "--END---"     
-      cd ..
-      echo "--Check---"
-      ls
-      echo "--END---"  
 
   - name: Login to Azure
     uses: azure/login@v1
     with:
       creds: '${{ inputs.azure_credentials }}'
 
-  - name: Deploy to QA
+  - name: Deploy WebApp
     shell: bash
     run: |
-      echo "--Check---"
-      echo "1: ${{ inputs.resource_group }}"
-      echo "2: ${{ inputs.web_app_name }}"
-      echo "--END---"
-      az webapp deployment source config-zip --src ./application.zip --resource-group ${{ inputs.resource_group }} --name ${{ inputs.web_app_name }}
+      az webapp deployment source config-zip --src ./${{ inputs.artifact_name }}.zip --resource-group ${{ inputs.resource_group }} --name ${{ inputs.web_app_name }}
