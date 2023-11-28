@@ -41,7 +41,7 @@ jobs:
 
 
     - name: Publish Artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: ${{ env.ARTIFACT_NAME }}
         path: .\WebApplication2\${{ env.PUBLISH_OUTPUT_PATH }}
@@ -77,7 +77,7 @@ jobs:
 
   #   # - name: Configure Environmental Variables
   #   #   run: |
-  #   #     az webapp config appsettings set --resource-group ${{ vars.RESOURCE_GROUP }} --name ${{ vars.WEB_APP_NAME }} --settings "ASPNETCORE_HTTPS_PORT"=8080
+  #   #     az webapp config appsettings set --resource-group ${{ vars.RESOURCE_GROUP }} --name ${{ vars.WEB_APP_NAME }} --settings "<KEY>"=<VALUE>
 
     - name: Deploy to Dev
       run: |

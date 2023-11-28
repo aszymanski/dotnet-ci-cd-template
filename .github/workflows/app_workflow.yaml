@@ -46,7 +46,7 @@ jobs:
         echo "---END---"   
 
     - name: Publish Artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: ${{ env.ARTIFACT_NAME }}
         path: ${{ env.PUBLISH_OUTPUT_PATH }}
