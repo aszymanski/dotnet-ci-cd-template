@@ -24,9 +24,12 @@ runs:
       ls 
       echo "--END---"
       cd ${{ inputs.artifact_name }}
-      zip -r ./${{ inputs.artifact_name }} .
+      zip -r ./${{ inputs.artifact_name }} ../
       ls   
       echo "--END---"     
+      cd ..
+      ls
+      echo "--END---"  
 
   - name: Login to Azure
     uses: azure/login@v1
@@ -36,4 +39,4 @@ runs:
   - name: Deploy to QA
     shell: bash
     run: |
-      az webapp deployment source config-zip --resource-group ${{ inputs.resource_group }} --name ${{ inputs.web_app_name }} --src ${{ inputs.artifact_name }}/${{ inputs.artifact_name }}.zip
+      az webapp deployment source config-zip --resource-group ${{ inputs.resource_group }} --name ${{ inputs.web_app_name }} --src ${{ inputs.artifact_name }}.zip
