@@ -37,6 +37,8 @@ jobs:
       run: | 
         cd ${{ env.PUBLISH_OUTPUT_PATH }}
         zip -r ../${{ env.ARTIFACT_NAME }} .
+        cd ../
+        ls
 
   # deploy-dev:
   #   runs-on: ubuntu-latest
