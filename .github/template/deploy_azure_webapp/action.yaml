@@ -21,13 +21,15 @@ runs:
   - name: Zip package
     shell: bash
     run: | 
+      echo "--Check---"
       ls 
       echo "--END---"
-      cd ${{ inputs.artifact_name }}
-      zip -r ./${{ inputs.artifact_name }} ../
+      zip -r ../${{ inputs.artifact_name }} ./${{ inputs.artifact_name }}
+      echo "--Check---"
       ls   
       echo "--END---"     
       cd ..
+      echo "--Check---"
       ls
       echo "--END---"  
 
@@ -39,4 +41,7 @@ runs:
   - name: Deploy to QA
     shell: bash
     run: |
+      echo "--Check---"
+      ls
+      echo "--END---"  
       az webapp deployment source config-zip --resource-group ${{ inputs.resource_group }} --name ${{ inputs.web_app_name }} --src ${{ inputs.artifact_name }}.zip
