@@ -3,8 +3,6 @@ name: Deploy Azure WebApp
 inputs:
   resource_group:
     required: true
-  publish_output_path:
-    required: true
   web_app_name:
     required: true
   artifact_name:
@@ -40,4 +38,4 @@ runs:
   - name: Deploy to QA
     shell: bash
     run: |
-      az webapp deployment source config-zip --resource-group ${{ inputs.resource_group }} --name ${{ inputs.web_app_name }} --src ${{ inputs.publish_output_path }}/${{ inputs.artifact_name }}.zip
+      az webapp deployment source config-zip --resource-group ${{ inputs.resource_group }} --name ${{ inputs.web_app_name }} --src ${{ inputs.${{ env.artifact_name }} }}/${{ inputs.artifact_name }}.zip

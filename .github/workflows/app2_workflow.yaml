@@ -90,7 +90,6 @@ jobs:
       uses: ./.github/template/deploy_azure_webapp
       with:
         resource_group: ${{ vars.RESOURCE_GROUP }}
-        publish_output_path: ${{ env.PUBLISH_OUTPUT_PATH }}
         web_app_name: ${{ vars.WEB_APP_NAME_2 }}
         artifact_name: ${{ env.ARTIFACT_NAME }}
         azure_credentials: '${{ secrets.AZURE_CREDENTIALS }}'
