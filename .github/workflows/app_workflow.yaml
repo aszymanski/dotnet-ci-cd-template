@@ -75,9 +75,9 @@ jobs:
       with:
         creds: '${{ secrets.AZURE_CREDENTIALS }}'
 
-    - name: Configure Environmental Variables
-      run: |
-        az webapp config appsettings set --resource-group ${{ vars.RESOURCE_GROUP }} --name ${{ vars.WEB_APP_NAME }} --settings "ASPNETCORE_HTTPS_PORT"=8080
+    # - name: Configure Environmental Variables
+    #   run: |
+    #     az webapp config appsettings set --resource-group ${{ vars.RESOURCE_GROUP }} --name ${{ vars.WEB_APP_NAME }} --settings "ASPNETCORE_HTTPS_PORT"=8080
 
     - name: Deploy to Dev
       run: |
