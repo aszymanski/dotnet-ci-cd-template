@@ -24,7 +24,7 @@ runs:
       echo "--Check---"
       ls 
       echo "--END---"
-      zip -r ../${{ inputs.artifact_name }} ./${{ inputs.artifact_name }}
+      zip -r ./${{ inputs.artifact_name }} ./${{ inputs.artifact_name }}
       echo "--Check---"
       ls   
       echo "--END---"     
