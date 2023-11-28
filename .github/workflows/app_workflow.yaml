@@ -6,7 +6,7 @@ env:
   SOLUTION_PATH: './WebApplication1.sln'
   BUILD_CONFIG: 'Release'
   DOTNET_VERSION: '6.0.x'
-  PUBLISH_OUTPUT_PATH: 'published'
+  PUBLISH_OUTPUT_PATH: './published'
   ARTIFACT_NAME: 'application'
 
 
@@ -32,6 +32,11 @@ jobs:
 
     - name: Publish
       run: dotnet publish ${{ env.SOLUTION_PATH }} --configuration ${{ env.BUILD_CONFIG }} -o ${{ env.PUBLISH_OUTPUT_PATH }}
+
+    - name: Zip package
+      run: | 
+        cd ${{ env.PUBLISH_OUTPUT_PATH }}
+        zip -r ../${{ env.ARTIFACT_NAME }} .
 
   # deploy-dev:
   #   runs-on: ubuntu-latest
