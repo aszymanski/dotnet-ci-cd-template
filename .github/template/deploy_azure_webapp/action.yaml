@@ -24,9 +24,14 @@ runs:
   - name: Zip package
     shell: bash
     run: | 
+      ls 
+      echo "--END---"
       cd ${{ inputs.publish_output_path }}
+      ls 
+      echo "--END---"
       zip -r ./${{ inputs.artifact_name }} .
-      ls        
+      ls   
+      echo "--END---"     
 
   - name: Login to Azure
     uses: azure/login@v1
