@@ -42,9 +42,6 @@ runs:
     shell: bash
     run: |
       echo "--Check---"
-      ls
-      echo "--END---"  
-      echo "--Check---"
       echo "${{ inputs.artifact_name }}.zip"
       echo "--END---"  
-      az webapp deployment source config-zip --resource-group ${{ inputs.resource_group }} --name ${{ inputs.web_app_name }} --src './application.zip'
+      az webapp deployment source config-zip --src ./application.zip --resource-group ${{ inputs.resource_group }} --name ${{ inputs.web_app_name }}
