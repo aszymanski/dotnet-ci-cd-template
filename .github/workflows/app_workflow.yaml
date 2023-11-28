@@ -35,8 +35,10 @@ jobs:
     - name: Check content
       run: | 
         ls
+        echo "---END---"
         cd ${{ env.PUBLISH_OUTPUT_PATH }}
-        ls   
+        ls
+        echo "---END---"   
 
     - name: Publish Artifact
       uses: actions/upload-artifact@v2
@@ -51,14 +53,15 @@ jobs:
     environment: DEV
     steps:
 
-    - name: Check content
-      run: | 
-        ls
-
     - name: Download Artifact
       uses: actions/download-artifact@v2
       with:
         name: ${{ env.ARTIFACT_NAME }}
+        
+    - name: Check content
+      run: | 
+        ls
+        echo "---END---"
 
     - name: Zip package
       run: | 
