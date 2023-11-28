@@ -23,9 +23,6 @@ runs:
     run: | 
       ls 
       echo "--END---"
-      cd ${{ inputs.artifact_name }}
-      ls 
-      echo "--END---"
       zip -r ./${{ inputs.artifact_name }} .
       ls   
       echo "--END---"     
