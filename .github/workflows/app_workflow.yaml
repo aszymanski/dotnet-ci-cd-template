@@ -32,11 +32,11 @@ jobs:
     - name: Publish
       run: dotnet publish ${{ env.SOLUTION_PATH }} --configuration ${{ env.BUILD_CONFIG }} -o ${{ env.PUBLISH_OUTPUT_PATH }}
 
-   - name: Check content
-      run: | 
-        ls
-        cd ${{ env.PUBLISH_OUTPUT_PATH }}
-        ls   
+    - name: Check content
+        run: | 
+          ls
+          cd ${{ env.PUBLISH_OUTPUT_PATH }}
+          ls   
 
     - name: Publish Artifact
       uses: actions/upload-artifact@v2
