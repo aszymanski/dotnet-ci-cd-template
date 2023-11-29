@@ -6,6 +6,12 @@ on:
     paths:
       - '.github/workflows/app2_workflow.yaml'
       - 'WebApplication2/**'
+    branches:
+      - main
+      - develop
+      - staging
+      - 'features/**'
+      - 'pipe/**'
 
 env:
   SOLUTION_PATH: '.\WebApplication2\WebApplication2.sln'
