@@ -113,12 +113,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: deploy-prd
     steps:
-    - name: Check content
-      run: | 
-        echo "---START---"
-        ls
-        echo "---END---"
-
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
@@ -139,15 +133,7 @@ jobs:
       shell: bash
       run: | 
         zip -r ./${{ env.ARTIFACT_NAME }} .
-    - name: Check content
-      run: | 
-        echo "---START---"
-        ls
-        echo "---END---"
-        echo "---START---"
-        cd ${{ inputs.artifact_name }}
-        ls
-        echo "---END---"
+        
     - name: upload windows artifact
       uses: actions/upload-release-asset@v1
       env:
