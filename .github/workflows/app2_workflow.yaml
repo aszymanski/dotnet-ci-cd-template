@@ -138,7 +138,7 @@ jobs:
     - name: Zip package
       shell: bash
       run: | 
-        zip -r ./${{ env.ARTIFACT_NAME }}.
+        zip -r ./${{ env.ARTIFACT_NAME }} .
     - name: Check content
       run: | 
         echo "---START---"
