@@ -130,6 +130,16 @@ jobs:
         draft: false
         prerelease: false
 
+    - name: Download Artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: ${{ env.artifact_name }}
+        
+    - name: Zip package
+      shell: bash
+      run: | 
+        zip -r ./${{ inputs.artifact_name }} ./${{ inputs.artifact_name }}
+
     - name: upload windows artifact
       uses: actions/upload-release-asset@v1
       env:
