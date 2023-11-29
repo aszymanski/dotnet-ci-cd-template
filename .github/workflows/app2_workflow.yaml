@@ -139,7 +139,11 @@ jobs:
       shell: bash
       run: | 
         zip -r ./${{ inputs.artifact_name }} ./${{ inputs.artifact_name }}
-
+    - name: Check content
+      run: | 
+        echo "---START---"
+        ls
+        echo "---END---"
     - name: upload windows artifact
       uses: actions/upload-release-asset@v1
       env:
